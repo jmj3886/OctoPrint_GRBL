@@ -1,11 +1,11 @@
 /*
- * View model for OctoPrint-Bettergrblsupport
+ * View model for OctoPrint_GRBL
  *
- * Author: Shell M. Shrader
+ * Author: Joshua M. Jarvis
  * License: Apache 2.0
  */
 $(function() {
-    function BettergrblsupportViewModel(parameters) {
+    function GRBLViewModel(parameters) {
       var self = this;
       var fs = false;
 
@@ -46,8 +46,8 @@ $(function() {
       self.power = ko.observable("N/A");
       self.speed = ko.observable("N/A");
 
-      tab = document.getElementById("tab_plugin_bettergrblsupport_link");
-      tab.innerHTML = tab.innerHTML.replace("Better Grbl Support", "Grbl Control");
+      tab = document.getElementById("tab_plugin_grbl_link");
+      tab.innerHTML = tab.innerHTML.replace("GRBL", "Grbl Control");
 
       self.webcamFrameRatioClass = ko.pureComputed(function() {
           if (self.settings.webcam_streamRatio() == "4:3") {
@@ -74,7 +74,7 @@ $(function() {
         }
 
         $.ajax({
-          url: API_BASEURL + "plugin/bettergrblsupport",
+          url: API_BASEURL + "plugin/grbl",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
@@ -101,7 +101,7 @@ $(function() {
 
       self.toggleWeak = function() {
         $.ajax({
-          url: API_BASEURL + "plugin/bettergrblsupport",
+          url: API_BASEURL + "plugin/grbl",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
@@ -129,7 +129,7 @@ $(function() {
 
       self.moveHead = function(direction) {
         $.ajax({
-          url: API_BASEURL + "plugin/bettergrblsupport",
+          url: API_BASEURL + "plugin/grbl",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
@@ -155,7 +155,7 @@ $(function() {
 
       self.sendCommand = function(command) {
         $.ajax({
-          url: API_BASEURL + "plugin/bettergrblsupport",
+          url: API_BASEURL + "plugin/grbl",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
@@ -178,20 +178,20 @@ $(function() {
       };
 
       self.onBeforeBinding = function() {
-        self.length(self.settings.settings.plugins.bettergrblsupport.frame_length());
-        self.width(self.settings.settings.plugins.bettergrblsupport.frame_width());
+        self.length(self.settings.settings.plugins.grbl.frame_length());
+        self.width(self.settings.settings.plugins.grbl.frame_width());
 
-        self.distance(self.settings.settings.plugins.bettergrblsupport.distance());
-        self.distances(self.settings.settings.plugins.bettergrblsupport.distances());
+        self.distance(self.settings.settings.plugins.grbl.distance());
+        self.distances(self.settings.settings.plugins.grbl.distances());
 
-        self.is_printing(self.settings.settings.plugins.bettergrblsupport.is_printing());
-        self.is_operational(self.settings.settings.plugins.bettergrblsupport.is_operational());
+        self.is_printing(self.settings.settings.plugins.grbl.is_printing());
+        self.is_operational(self.settings.settings.plugins.grbl.is_operational());
 
         var x = document.getElementsByName("frameOrigin");
 
         var i;
         for (i = 0; i < x.length; i++) {
-          if (x[i].id == self.settings.settings.plugins.bettergrblsupport.frame_origin()) {
+          if (x[i].id == self.settings.settings.plugins.grbl.frame_origin()) {
             x[i].checked = true;
             break;
           }
@@ -201,9 +201,9 @@ $(function() {
       self.onTabChange = function (current, previous) {
           var streamImg = document.getElementById("webcam_image_framing");
 
-          if (current == "#tab_plugin_bettergrblsupport") {
+          if (current == "#tab_plugin_grbl") {
               streamImg.src = self.settings.settings.webcam.streamUrl() + "&nonce=" + Math.floor(Math.random() * 1000000);
-          } else if (previous == "#tab_plugin_bettergrblsupport") {
+          } else if (previous == "#tab_plugin_grbl") {
               streamImg.src = "about:blank";
           }
       };
@@ -222,7 +222,7 @@ $(function() {
       };
 
       self.onDataUpdaterPluginMessage = function(plugin, data) {
-        if (plugin == 'bettergrblsupport' && data.type == 'grbl_state') {
+        if (plugin == 'grbl' && data.type == 'grbl_state') {
           self.state(data.state);
           self.xPos(Number.parseFloat(data.x).toFixed(2));
           self.yPos(Number.parseFloat(data.y).toFixed(2));
@@ -246,7 +246,7 @@ $(function() {
           return
         }
 
-        if (plugin == 'bettergrblsupport' && data.type == 'grbl_frame_size') {
+        if (plugin == 'grbl' && data.type == 'grbl_frame_size') {
           width = Number.parseFloat(data.width).toFixed(0);
           length = Number.parseFloat(data.length).toFixed(0);
 
@@ -267,7 +267,7 @@ $(function() {
           return
         }
 
-        if (plugin == 'bettergrblsupport' && data.type == 'grbl_error') {
+        if (plugin == 'grbl' && data.type == 'grbl_error') {
           new PNotify({
             title: "Grbl Error #" + data.code + " Received",
             text: data.description,
@@ -280,7 +280,7 @@ $(function() {
           });
         }
 
-        if (plugin == 'bettergrblsupport' && data.type == 'grbl_alarm') {
+        if (plugin == 'grbl' && data.type == 'grbl_alarm') {
           new PNotify({
             title: "Grbl Alarm #" + data.code + " Received",
             text: data.description,
@@ -340,22 +340,9 @@ $(function() {
       }
     }
 
-
-    /* view model class, parameters for constructor, container to bind to
-     * Please see http://docs.octoprint.org/en/master/plugins/viewmodels.html#registering-custom-viewmodels for more details
-     * and a full list of the available options.
-     */
-    // OCTOPRINT_VIEWMODELS.push({
-    //     construct: BettergrblsupportViewModel,
-    //     // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
-    //     dependencies: [ /* "loginStateViewModel", "settingsViewModel" */ ],
-    //     // Elements to bind to, e.g. #settings_plugin_bettergrblsupport, #tab_plugin_bettergrblsupport, ...
-    //     elements: [ /* ... */ ]
-    // });
-
     OCTOPRINT_VIEWMODELS.push([
-      BettergrblsupportViewModel,
+      GRBLViewModel,
         [ "settingsViewModel", "loginStateViewModel" ],
-        [ "#tab_plugin_bettergrblsupport" ]
+        [ "#tab_plugin_grbl" ]
       ]);
 });

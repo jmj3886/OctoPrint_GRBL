@@ -1,11 +1,11 @@
 /*
- * View model for OctoPrint-Bettergrblsupport
+ * View model for OctoPrint_GRBL
  *
- * Author: Shell M. Shrader
+ * Author: Joshua M. Jarvis
  * License: Apache 2.0
  */
 $(function() {
-    function BettergrblsupportSettingsViewModel(parameters) {
+    function GRBLSettingsViewModel(parameters) {
       var self = this;
       // var $body = $('body');
 
@@ -21,7 +21,7 @@ $(function() {
       self.updateSetting = function(id, value, oldvalue) {
         if (value != oldvalue) {
           $.ajax({
-            url: API_BASEURL + "plugin/bettergrblsupport",
+            url: API_BASEURL + "plugin/grbl",
             type: "POST",
             dataType: "json",
             data: JSON.stringify({
@@ -74,7 +74,7 @@ $(function() {
 
       self.backupSettings = function() {
         $.ajax({
-          url: API_BASEURL + "plugin/bettergrblsupport",
+          url: API_BASEURL + "plugin/grbl",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
@@ -110,7 +110,7 @@ $(function() {
 
       self.restoreSettings = function() {
         $.ajax({
-          url: API_BASEURL + "plugin/bettergrblsupport",
+          url: API_BASEURL + "plugin/grbl",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
@@ -147,7 +147,7 @@ $(function() {
 
       self.onBeforeBinding = function() {
         // initialize stuff here
-        self.pushGrblSettings(self.settings.settings.plugins.bettergrblsupport.grblSettingsText());
+        self.pushGrblSettings(self.settings.settings.plugins.grbl.grblSettingsText());
       };
 
       self.pushGrblSettings = function(grblSettingsText) {
@@ -210,21 +210,9 @@ $(function() {
       };
     }
 
-    /* view model class, parameters for constructor, container to bind to
-     * Please see http://docs.octoprint.org/en/master/plugins/viewmodels.html#registering-custom-viewmodels for more details
-     * and a full list of the available options.
-     */
-    // OCTOPRINT_VIEWMODELS.push({
-    //     construct: BettergrblsupportViewModel,
-    //     // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
-    //     dependencies: [ /* "loginStateViewModel", "settingsViewModel" */ ],
-    //     // Elements to bind to, e.g. #settings_plugin_bettergrblsupport, #tab_plugin_bettergrblsupport, ...
-    //     elements: [ /* ... */ ]
-    // });
-
     OCTOPRINT_VIEWMODELS.push([
-      BettergrblsupportSettingsViewModel,
+      GRBLSettingsViewModel,
       [ "settingsViewModel", "loginStateViewModel" ],
-        "#settings_plugin_bettergrblsupport"
+        "#settings_plugin_grbl"
       ]);
 });

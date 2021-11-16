@@ -1,0 +1,152 @@
+<form class="form-horizontal">
+	<h4>UI Options</h4>
+	<hr>
+		<div class="control-group">
+				<div class="controls">
+						<label class="checkbox">
+						<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.reOrderTabs"> Grbl Control is always first tab *
+						<br>
+						<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.hideTempTab"> Hide the Octoprint Temperature tab *
+						<br>
+						<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.hideGCodeTab"> Hide the Octoprint GCode Viewer tab *
+						<br>
+						<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.showZ"> Show Z Axis on Grbl Control tab
+						<br>
+						<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.hideControlTab"> Hide the Octoprint Control tab *
+						<!-- ko ifnot: settings.settings.plugins.grbl.hideControlTab -->
+							<br>
+							<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.customControls"> Add Laser Controls and State to Control tab *
+						<!-- /ko -->
+						</label>
+				</div>
+		</div>
+
+		<h4>Grbl Options</h4>
+		<hr>
+		<label class="control-label">Hello Command</label>
+		<div class="controls">
+				<input type="text" class="input-mini" data-bind="value: settings.settings.plugins.grbl.hello">
+				<br>
+				<label class="checkbox">
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.suppressM115"> Replace M115 requests with above
+				</label>
+		</div>
+
+		<br>
+
+		<div class="control-group">
+			<label class="control-label">Status Command</label>
+			<div class="controls">
+					<input type="text" class="input-mini" data-bind="value: settings.settings.plugins.grbl.statusCommand">
+					<br>
+					<label class="checkbox">
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.suppressM105"> Replace M105 requests with above
+					<br>
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.disablePolling"> Disable status polling while printing
+					</label>
+			</div>
+		</div>
+
+		<label class="control-label">Position Command</label>
+		<div class="controls">
+				<input type="text" class="input-mini" data-bind="value: settings.settings.plugins.grbl.positionCommand">
+				<br>
+				<label class="checkbox">
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.suppressM114"> Replace M114 requests with above
+				</label>
+		</div>
+
+		<br>
+
+		<label class="control-label">Dwell Command</label>
+		<div class="controls">
+				<input type="text" class="input-mini" data-bind="value: settings.settings.plugins.grbl.dwellCommand">
+				<br>
+				<label class="checkbox">
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.suppressM400"> Replace M400 requests with above
+				</label>
+				<br>
+				<label class="checkbox">
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.doSmoothie"> Smoothieware Support (EXPERIMENTAL)
+					<br>
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.suppressM110"> Suppress M110 requests
+					<br>
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.disableModelSizeDetection"> Disable Model Size Detection *
+					<br>
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.neverSendChecksum"> Never Send Checksums *
+					<br>
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.disablePrinterSafety"> Disable Printer Safety Check Plugin *
+					<br>
+					<br>
+					<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.ignoreErrors"> Ignore Firmware Errors (NOT RECOMMENDED)
+				</label>
+		</div>
+
+		<br>
+
+		<label class="control-label">Weak Laser Intensity</label>
+		<div class="controls">
+				<input type="text" class="input-mini" data-bind="value: settings.settings.plugins.grbl.weakLaserValue">
+		</div>
+
+		<br>
+
+    <label class="control-label">Air Assist Overrides</label>
+		<br>
+		<div class="controls">
+			<label class="checkbox">
+				<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.overrideM8"> Suppress M8 Command
+			</label>
+			<!-- ko if: settings.settings.plugins.grbl.overrideM8 -->
+					<label>And Execute:</label>
+	        <input type="text" class="input-block-level" data-bind="value: settings.settings.plugins.grbl.m8Command">
+					<br><br>
+			<!-- /ko -->
+			<label class="checkbox">
+				<input type="checkbox" data-bind="checked: settings.settings.plugins.grbl.overrideM9"> Suppress M9 Command
+			</label>
+			<!-- ko if: settings.settings.plugins.grbl.overrideM9 -->
+					<label>And Execute:</label>
+	        <input type="text" class="input-block-level" data-bind="value: settings.settings.plugins.grbl.m9Command">
+					<br><br>
+			<!-- /ko -->
+		</div>
+
+		<br>
+		<br>
+		<p>* Server restart is required for this setting change to take effect</p>
+		<br>
+		<h4>Grbl Settings</h4>
+		<hr>
+		<center>
+			<table width=90% border=0 cellpadding=3>
+				<thead>
+					<tr>
+						<th align="center" width=10%>Id</th>
+						<th align="center" width=20%>Value</th>
+						<th align="left" width=70%>Description</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: grblSettings">
+					<tr>
+						<td align="center" data-bind="text: id"></td>
+						<!-- <td align="center"><input type="text" class="input-min" data-bind="value: value" onchange="updateSetting('boo','hoo')"></td> -->
+						<td align="center"><input type="text" class="input-min" data-bind="numeric, value: value, event: { change: $parent.updateSetting(id, value, oldvalue) }"></td>
+						<!-- <td data-bind="text: value"></td> -->
+						<td align="left" data-bind="text: description"></td>
+					</tr>
+				</tbody>
+				<tr><td colspan=3>&nbsp;</td></tr>
+				<tr>
+					<td colspan=2>
+						<button class="btn" data-bind="enable: is_operational() && !is_printing(), click: function() { backupSettings() }">Backup Settings</button>
+					</td>
+					<td align="right">
+						<button class="btn" data-bind="enable: is_operational() && !is_printing() && settings.settings.plugins.grbl.grblSettingsBackup().length > 0, click: function() { restoreSettings() }">Restore Settings</button>
+					</td>
+				</tr>
+			</table>
+
+		</center>
+
+</form>
