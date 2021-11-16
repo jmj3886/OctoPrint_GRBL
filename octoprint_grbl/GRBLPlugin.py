@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 from __future__ import absolute_import
 from octoprint.events import Events
@@ -17,7 +15,7 @@ import logging
 import json
 import flask
 
-class BetterGrblSupportPlugin(octoprint.plugin.SettingsPlugin,
+class GRBLPlugin(octoprint.plugin.SettingsPlugin,
                               octoprint.plugin.SimpleApiPlugin,
                               octoprint.plugin.AssetPlugin,
                               octoprint.plugin.TemplatePlugin,
@@ -237,10 +235,10 @@ class BetterGrblSupportPlugin(octoprint.plugin.SettingsPlugin,
         if self.reOrderTabs:
             orderedTabs = self._settings.global_get(["appearance", "components", "order", "tab"])
 
-            if "plugin_bettergrblsupport" in orderedTabs:
-                orderedTabs.remove("plugin_bettergrblsupport")
+            if "plugin_grbl" in orderedTabs:
+                orderedTabs.remove("plugin_grbl")
 
-            orderedTabs.insert(0, "plugin_bettergrblsupport")
+            orderedTabs.insert(0, "plugin_grbl")
             self._settings.global_set(["appearance", "components", "order", "tab"], orderedTabs)
 
         self._settings.save()
@@ -314,14 +312,14 @@ class BetterGrblSupportPlugin(octoprint.plugin.SettingsPlugin,
     def get_assets(self):
         # Define your plugin's asset files to automatically include in the
         # core UI here.
-        return dict(js=['js/bettergrblsupport.js', 'js/bettergrblsupport_settings.js'],
-                    css=['css/bettergrblsupport.css', 'css/bettergrblsupport_settings.css'],
-                    less=['less/bettergrblsupport.less', "less/bettergrblsupport.less"])
+        return dict(js=['js/grbl.js', 'js/grbl_settings.js'],
+                    css=['css/grbl.css', 'css/grbl_settings.css'],
+                    less=['less/grbl.less', "less/grbl.less"])
 
     # #~~ TemplatePlugin mixin
     def get_template_configs(self):
         return [
-            dict(type="settings", template="bettergrblsupport_settings.jinja2", custom_bindings=True)
+            dict(type="settings", template="grbl_settings.jinja2", custom_bindings=True)
         ]
 
     # def get_template_vars(self):
@@ -983,34 +981,11 @@ class BetterGrblSupportPlugin(octoprint.plugin.SettingsPlugin,
 
     # #~~ Softwareupdate hook
     def get_update_information(self):
-
-        # Define the configuration for your plugin to use with the Software Update
-        # Plugin here. See https://github.com/foosel/OctoPrint/wiki/Plugin:-Software-Update
-        # for details.
-
-        return dict(bettergrblsupport=dict(  # version check: github repository
-                                             # update method: pip
-            displayName='Better Grbl Support',
+        return dict(grbl=dict( 
+            displayName='GRBL',
             displayVersion=self._plugin_version,
             type='github_release',
-            user='synman',
-            repo='OctoPrint-Bettergrblsupport',
+            user='jmj3886',
+            repo='OctoPrint_GRBL',
             current=self._plugin_version,
-            pip='https://github.com/synman/OctoPrint-Bettergrblsupport/archive/{target_version}.zip'))
-
-# If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
-# ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
-# can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
-
-__plugin_name__ = 'Better Grbl Support'
-__plugin_pythoncompat__ = ">=2.7,<4"
-
-def __plugin_load__():
-    global __plugin_implementation__
-    __plugin_implementation__ = BetterGrblSupportPlugin()
-
-    global __plugin_hooks__
-    __plugin_hooks__ = \
-        {'octoprint.plugin.softwareupdate.check_config': __plugin_implementation__.get_update_information,
-         'octoprint.comm.protocol.gcode.sending': __plugin_implementation__.hook_gcode_sending,
-         'octoprint.comm.protocol.gcode.received': __plugin_implementation__.hook_gcode_received}
+            pip='https://github.com/jmj3886/OctoPrint_GRBL/archive/{target_version}.zip'))
