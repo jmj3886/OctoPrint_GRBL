@@ -27,11 +27,16 @@ document.getElementById("settings_plugin_virtual_printer_link").querySelector('a
 
 // Settings - Printer Profiles
 document.getElementById("settings_printerProfiles").querySelector('h3').innerHTML = "Machine Profiles";
-document.getElementById("settings_printerProfiles_editDialog").querySelectorAll('li')[2].querySelector('a').innerHTML = "Work area & build volume";
-document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[2].remove();
-document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[3].remove();
+document.getElementById("settings_printerProfiles_editDialog").querySelector('h3').innerHTML = "Edit Machine Profile \"" + document.getElementById("settings_printerProfiles_editDialog").querySelector('h3').innerHTML.split("\"")[1] + "\"";
+document.getElementById("settings_printerProfiles_editDialog").querySelectorAll('li')[1].querySelector('a').innerHTML = "Work area & build volume";
+document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[6].remove();
+document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[6].remove();
+document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[7].innerHTML = "Please define the build volume.";
+document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[22].remove();
+document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelectorAll('div')[22].remove();
+document.getElementById("settings_printerProfiles_editDialog_buildvolume").querySelector('p').querySelector('small').innerHTML = "This information is used for the bounding box check, the GCODE Viewer and/or when slicing from OctoPrint.";
 document.getElementById("settings_printerProfiles_editDialog_axes").querySelector('small').innerHTML = 'This information is used for manual control via the "GRBL" tab.';
-document.getElementById("settings_printerProfiles_editDialog").querySelectorAll('li')[4].remove();
+document.getElementById("settings_printerProfiles_editDialog").querySelectorAll('li')[3].remove();
 
 // Settings - GCODE Scripts
 document.getElementById("settings_gcodeScripts").querySelectorAll('label')[0].innerHTML = "Before run starts"
