@@ -10,7 +10,8 @@ class OctoPrint_GRBL(octoprint.plugin.StartupPlugin,
 
     def get_assets(self):
         return dict(
-            js=["js/OctoPrint_GRBL.js"],
+            js=["js/OctoPrint_GRBL.js",
+                "js/OctoPrint_GRBL_ToolProfiles.js"],
         )
 
     def on_after_startup(self):
@@ -26,11 +27,11 @@ class OctoPrint_GRBL(octoprint.plugin.StartupPlugin,
             self._settings.set(['OctoPrint_GRBL_settings'], self.get_settings_defaults()["OctoPrint_GRBL_settings"])
 
     def get_settings_defaults(self):
-        return dict(OctoPrint_GRBL_settings={{}})
+        return dict(OctoPrint_GRBL_settings={"toolProfiles":[]})
 
     def get_template_configs(self):
         return [
-            #dict(type="settings", custom_bindings=True),
+            dict(type="settings", custom_bindings=True),
             #dict(type="generic", template="OctoPrint_GRBL.jinja2", custom_bindings=True)
         ]
 
