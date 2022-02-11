@@ -37,13 +37,14 @@ $(function() {
         };
 
         self.onAfterBinding = function() {
-	    var toolProfilesLink = document.createElement('a');
+            var toolProfilesLink = document.createElement('a');
             toolProfilesLink.href = "#settings_plugin_OctoPrint_GRBL_ToolProfiles";
             toolProfilesLink.text = "Tool Profiles";
-	    var toolProfilesListItem = document.createElement('li');
+            var toolProfilesListItem = document.createElement('li');
             toolProfilesListItem.id = "settings_plugin_grbl_toolprofiles_link";
             toolProfilesListItem.appendChild(toolProfilesLink);
             document.getElementById("settings_printerProfiles_link").after(toolProfilesListItem);
+            document.getElementById("settings_printerProfiles").after(document.getElementById("settings_plugin_OctoPrint_GRBL_ToolProfiles"))
         };
     }
 

@@ -32,7 +32,7 @@ class OctoPrint_GRBL(octoprint.plugin.StartupPlugin,
     def get_template_configs(self):
         return [
             dict(type="settings", custom_bindings=True),
-            #dict(type="generic", template="OctoPrint_GRBL.jinja2", custom_bindings=True)
+            dict(type="settings", template="OctoPrint_GRBL_ToolProfiles_settings.jinja", custom_bindings=True)
         ]
 
     ##~~ Softwareupdate hook
@@ -40,7 +40,7 @@ class OctoPrint_GRBL(octoprint.plugin.StartupPlugin,
         return self._plugin_version
 
     def get_update_information(self):
-        return dict(grbl=dict( 
+        return dict(OctoPrint_GRBL=dict( 
             displayName='GRBL',
             displayVersion=self._plugin_version,
             type='github_release',
